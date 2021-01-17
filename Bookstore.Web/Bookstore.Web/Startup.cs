@@ -26,15 +26,44 @@ namespace Bookstore.Web
                 app.UseDeveloperExceptionPage();
             }
 
+
+
+            ///Below We add Middleware to httppipeline in dotnetcore request,Next() is to pass thing to next middle where 
+            /*app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Hello from First middleware");
+                await next();
+                await context.Response.WriteAsync("Hello from First middleware Response");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Hello from Secound middleware");
+                await next();
+            });*/
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    if (env.IsEnvironment("Development"))
+                    {
+                        await context.Response.WriteAsync("Hello World from Development !");
+                    }
+                    else { await context.Response.WriteAsync("Hello World from "+env.EnvironmentName); }
+
                 });
             });
+            ///below code is to add route for the url https://localhost:5050/Get request
+           /* app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/Get", async context =>
+                {
+                    await context.Response.WriteAsync("Hello Every One !! Good Morning");
+                });
+            });*/
         }
     }
 }
