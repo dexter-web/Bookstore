@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace Bookstore.Web
@@ -27,8 +29,15 @@ namespace Bookstore.Web
                 app.UseDeveloperExceptionPage();
             }
 
-
-
+            app.UseStaticFiles();
+            //===============================================================================
+            
+          /*  app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "privateImages")),
+                RequestPath= "/privateImages"
+            }); */
+            //===============================================================================
             ///Below We add Middleware to httppipeline in dotnetcore request,Next() is to pass thing to next middle where 
             /*app.Use(async (context, next) =>
             {
@@ -42,25 +51,26 @@ namespace Bookstore.Web
                 await context.Response.WriteAsync("Hello from Secound middleware");
                 await next();
             });*/
-
+            //===============================================================================
             app.UseRouting();
             app.UseEndpoints(X =>
             {
                 X.MapDefaultControllerRoute();
             });
+            //===============================================================================
+            /* app.UseEndpoints(endpoints =>
+             {
+                 endpoints.MapGet("/", async context =>
+                 {
+                     if (env.IsEnvironment("Development"))
+                     {
+                         await context.Response.WriteAsync("Hello World from Development !");
+                     }
+                     else { await context.Response.WriteAsync("Hello World from "+env.EnvironmentName); }
 
-           /* app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    if (env.IsEnvironment("Development"))
-                    {
-                        await context.Response.WriteAsync("Hello World from Development !");
-                    }
-                    else { await context.Response.WriteAsync("Hello World from "+env.EnvironmentName); }
-
-                });
-            });*/
+                 });
+             });*/
+            //===============================================================================
             ///below code is to add route for the url https://localhost:5050/Get request
             /* app.UseEndpoints(endpoints =>
              {
@@ -69,6 +79,7 @@ namespace Bookstore.Web
                      await context.Response.WriteAsync("Hello Every One !! Good Morning");
                  });
              });*/
+            //===============================================================================
         }
     }
 }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Bookstore.Web.Repositories;
 using Bookstore.Web.Models;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Bookstore.Web.Controllers
 {
@@ -46,6 +48,11 @@ namespace Bookstore.Web.Controllers
         public List<Employee> GetEmployeeByNameAndAge(string Name,int Age)
         {
             return _Emp.GetlistByNameandAge(Name,Age);
+        }
+
+        public ActionResult Demo()
+        { 
+            return View();
         }
     }
 }
